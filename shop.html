@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gbemi’s Essentials - Shop</title>
+    <!-- Preload the first hero image -->
+    <link rel="preload" href="https://i.pinimg.com/1200x/8f/02/19/8f0219bcdf2484b910c7c9bd0a275140.jpg" as="image">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Colors (Purple, Pink, Blush Palette for Light Mode) */
+        :root {
+            --bg-primary: #F8F1F8; /* Light Blush */
+            --bg-secondary: #F3E5F5; /* Soft Purple for sections */
+            --accent-primary: #8B5CF6; /* Vibrant Purple */
+            --accent-secondary: #F472B6; /* Bright Pink */
+            --blush-accent: #FFDBE9; /* Blush for accents */
+            --text-primary: #c211c2; /* Dark Gray for main text */
+            --text-secondary: #4A4A4A; /* Medium Gray for secondary text */
+            --success: #10B981; /* Green for success */
+            --error: #EF4444; /* Red for errors */
+            --footer-bg: #F9E8F5; /* Softer Blush for Footer */
+        }
+        .dark-mode {
+            --bg-primary: #2E2A44; /* Softer Purple-Gray */
+            --bg-secondary: rgba(61, 53, 90, 0.9); /* Slightly lighter Purple with transparency */
+            --accent-primary: #A78BFA; /* Lighter Vibrant Purple */
+            --accent-secondary: #F472B6; /* Retained Bright Pink */
+            --blush-accent: #E9D6F2; /* Softer Blush for accents */
+            --text-primary: #F472B6; /* Pink for section headers in dark mode */
+            --text-secondary: #FFDBE9; /* Blush for content text in dark mode, with pink as fallback */
+            --success: #34D399; /* Softer Green */
+            --error: #F87171; /* Softer Red */
+            --footer-bg: rgba(61, 53, 90, 0.9); /* Matches section background with transparency */
+        }
+
+        /* General Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            position: relative;
+            overflow-x: hidden;
+            transition: all 0.3s ease; /* Smooth transition for theme changes */
+        }
+
+        /* Particle Background */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0.3;
+        }
+
+        /* Content Wrapper for Blur Effect */
+        .content-wrapper {
+            transition: filter 0.3s ease;
+        }
+        .content-wrapper.nav-open {
+            filter: blur(3px);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(248, 241, 248, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            text-shadow: none;
+        }
+        header.shrink { transform: translateY(-5px) scale(0.98); }
+        .top-bar {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: #FFFFFF;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px var(--accent-primary);
+        }
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            text-align: center;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-shadow: 0 0 5px var(--accent-primary);
+        }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        nav { display: flex; gap: 1.5rem; position: relative; }
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s;
+            text-shadow: none;
+        }
+        @media (min-width: 769px) {
+            nav a::before {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+                transition: width 0.4s ease;
+            }
+            nav a:hover::before { width: 100%; }
+            nav a:hover {
+                color: var(--accent-secondary);
+            }
+        }
+        .header-icons { display: flex; gap: 1rem; align-items: center; }
+        .wishlist-icon { position: relative; cursor: pointer; font-size: 1.2rem; color: var(--text-primary); }
+        .wishlist-icon:hover { color: var(--accent-secondary); }
+        #wishlist-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-primary);
+            color: #FFFFFF;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            box-shadow: 0 0 5px var(--accent-primary);
+        }
+        #dark-mode-toggle { cursor: pointer; font-size: 1.2rem; color: var(--text-primary); }
+        #dark-mode-toggle:hover { color: var(--accent-secondary); }
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary); }
+        .hamburger:hover { color: var(--accent-secondary); }
+        .nav-header { display: none; }
+
+        /* Hero Section with Parallax */
+        .hero {
+            position: relative;
+            height: 700px;
+            overflow: hidden;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            margin-top: 120px;
+            z-index: 1;
+        }
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: left 0.5s ease, opacity 0.5s ease;
+        }
+        .hero-slide.active { left: 0; opacity: 1; }
+        .hero-slide picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translateZ(0);
+            transition: transform 0.5s ease;
+        }
+        .hero-slide.active img {
+            animation: zoomIn 10s ease-in-out infinite;
+        }
+        @keyframes zoomIn {
+            0% { transform: scale(1.1) translateY(0); }
+            50% { transform: scale(1.2) translateY(-20px); }
+            100% { transform: scale(1.1) translateY(0); }
+        }
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #FFFFFF;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 700px;
+            z-index: 2;
+        }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            animation: heartbeat 2s infinite;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        .hero-content button {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: #FFFFFF;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 25px;
+            box-shadow: 0 0 15px var(--accent-secondary);
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        .hero-content button:hover {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            box-shadow: 0 0 20px var(--accent-secondary);
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        main { padding: 2rem; }
+        .section {
+            position: relative;
+            margin: 4rem 0;
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(244, 114, 182, 0.2), rgba(255, 219, 233, 0.1)); /* Added blush/pink particles */
+            opacity: 0.3;
+            z-index: -1;
+            border-radius: 20px;
+        }
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--text-primary); /* Pink in dark mode */
+            margin-bottom: 1.5rem;
+        }
+        .section p {
+            animation: fadeIn 0.5s ease-in;
+            font-size: 1.1rem;
+            color: var(--text-secondary); /* Blush in dark mode */
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .product-card {
+            background: rgba(255, 255, 233, 0.1); /* Slight blush transparency */
+            backdrop-filter: blur(5px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 0 20px var(--accent-secondary);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.2) 0%, rgba(255, 219, 233, 0.1) 70%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .product-card:hover::before { opacity: 1; }
+        .product-card .image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            cursor: default;
+        }
+        .product-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover img { transform: scale(1.1); }
+        .product-card h3 {
+            font-size: 1.3rem;
+            margin: 0.8rem 0;
+            color: var(--accent-primary);
+        }
+        .product-card p { font-size: 1rem; margin-bottom: 1rem; color: var(--text-secondary); }
+        .product-card .wishlist-icon {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+        .product-card .wishlist-icon.added {
+            color: var(--success);
+        }
+
+        /* Best Sellers and New Arrivals Grids */
+        .best-sellers-grid, .new-arrivals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Wishlist Modal */
+        #wishlist-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 233, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border: 2px solid var(--accent-secondary);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px var(--accent-secondary);
+            z-index: 2000;
+        }
+        #wishlist-modal h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--accent-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        #wishlist-modal ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        #wishlist-modal li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(255, 255, 233, 0.1);
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+        #wishlist-modal li span {
+            flex: 1;
+            font-weight: 500;
+        }
+        #wishlist-modal li button {
+            background: var(--error);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 25px;
+            box-shadow: 0 0 10px var(--error);
+            font-size: 0.9rem;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        #wishlist-modal li button:hover {
+            background: #F87171;
+            box-shadow: 0 0 15px #F87171;
+            transform: scale(1.1);
+        }
+        #wishlist-modal .wishlist-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        #wishlist-modal button {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: #FFFFFF;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-radius: 25px;
+            box-shadow: 0 0 15px var(--accent-secondary);
+            font-size: 1rem;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        #wishlist-modal button:hover {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            box-shadow: 0 0 20px var(--accent-secondary);
+            transform: scale(1.1);
+        }
+
+        /* Notification Styling */
+        #wishlist-notification {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            box-shadow: 0 0 10px var(--success);
+            z-index: 2000;
+            animation: slideInNotification 0.5s ease-in-out;
+        }
+        @keyframes slideInNotification {
+            0% { transform: translateX(100%); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            padding: 4rem 1rem;
+            position: relative;
+            border-top: 5px solid var(--accent-secondary);
+            margin-top: 4rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            color: var(--text-primary);
+            background: rgba(255, 255, 233, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+        footer h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        footer p, footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0.6rem 0;
+            transition: all 0.3s ease;
+        }
+        a:not(nav a):hover {
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scale(1.05);
+        }
+        footer p i { margin-right: 0.5rem; color: var(--accent-primary); }
+        .social-icons { display: flex; gap: 1.2rem; }
+        .social-icons a {
+            font-size: 2rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s, color 0.3s;
+        }
+        .social-icons a:hover {
+            color: var(--accent-secondary);
+            transform: scale(1.2);
+        }
+        .back-to-top {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-to-top a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: #FFFFFF;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 0 15px var(--accent-secondary);
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        .back-to-top a:hover {
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
+            box-shadow: 0 0 20px var(--accent-secondary);
+            transform: scale(1.1);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1200px) {
+            .main-header { padding: 1rem 1.5rem; }
+            .logo { font-size: 2rem; }
+            .hero { height: 600px; margin-top: 110px; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .hero-content button { padding: 0.9rem 1.8rem; font-size: 1.1rem; }
+            .category-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+            .best-sellers-grid, .new-arrivals-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        }
+
+        @media (max-width: 1024px) {
+            .main-header { padding: 1rem; }
+            .logo { font-size: 1.8rem; }
+            .hero { height: 500px; margin-top: 100px; }
+            .hero-content h1 { font-size: 3rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .hero-content button { padding: 0.8rem 1.5rem; font-size: 1rem; }
+            .category-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .best-sellers-grid, .new-arrivals-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                display: flex;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                gap: 0;
+            }
+            .logo-container {
+                flex: 0 0 auto;
+                margin: 0 auto;
+                text-align: center;
+                order: 1;
+            }
+            .logo {
+                text-align: center;
+                margin-left: 2rem;
+            }
+            .hamburger {
+                display: block;
+                order: 0;
+                flex: 0 0 auto;
+                margin-right: auto;
+            }
+            .header-nav {
+                order: 2;
+                width: 0;
+                overflow: hidden;
+            }
+            .header-icons {
+                order: 3;
+                flex: 0 0 auto;
+                gap: 0.5rem;
+                margin-left: 1rem;
+            }
+            nav {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: -80%;
+                width: 80%;
+                height: 100vh;
+                background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+                padding: 2rem 1rem;
+                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
+                transition: left 0.3s ease;
+                z-index: 1001;
+                overflow-y: auto;
+            }
+            nav.active { display: block; left: 0; }
+            .nav-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+            }
+            nav .nav-header h3 {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #FFFFFF;
+            }
+            nav .close-nav {
+                font-size: 1.5rem;
+                color: #FFFFFF;
+                cursor: pointer;
+            }
+            nav .close-nav:hover { transform: rotate(90deg); }
+            nav a {
+                display: block;
+                margin: 1.5rem 0;
+                font-size: 1.2rem;
+                color: #FFFFFF;
+                padding: 0.5rem 1rem;
+                border-radius: 25px;
+                background: rgba(255, 255, 233, 0.1);
+                transition: transform 0.3s, background 0.3s;
+                opacity: 0;
+                transform: translateX(-20px);
+                animation: slideInNav 0.5s forwards;
+                animation-delay: calc(0.1s * var(--nav-index));
+            }
+            nav a:hover {
+                background: rgba(255, 255, 233, 0.2);
+                transform: translateX(10px);
+            }
+            @keyframes slideInNav { to { opacity: 1; transform: translateX(0); } }
+            .hamburger { font-size: 1.3rem; }
+            .wishlist-icon, #dark-mode-toggle { font-size: 1.1rem; color: var(--text-primary); } /* Ensure icons are visible in dark mode */
+            #wishlist-count { font-size: 0.6rem; padding: 1px 4px; }
+            .hero { height: 400px; margin-top: 120px; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1rem; }
+            .hero-content button { padding: 0.7rem 1.3rem; font-size: 0.9rem; }
+            main { padding: 1rem; }
+            .section { padding: 2rem; margin: 2rem 0; }
+            .section h2 { font-size: 2rem; }
+            .section p { font-size: 1rem; }
+            .category-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .best-sellers-grid, .new-arrivals-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .product-card, .feature-card, .review-card, .trending-card { padding: 1rem; }
+            .product-card h3 { font-size: 1.2rem; }
+            .product-card p { font-size: 0.9rem; }
+            #wishlist-modal { width: 90%; max-width: 400px; height: auto; max-height: 70vh; }
+            #wishlist-modal h2 { font-size: 1.8rem; }
+            #wishlist-modal li { padding: 0.8rem; font-size: 1rem; }
+            #wishlist-modal li button { padding: 0.5rem 1rem; font-size: 0.9rem; }
+            #wishlist-modal .wishlist-actions { flex-direction: column; gap: 0.8rem; }
+            footer { padding: 2rem 1rem; }
+            .footer-content { padding: 1rem; gap: 1rem; }
+            footer h3 { font-size: 1.2rem; }
+            footer p, footer a { font-size: 0.9rem; }
+            .social-icons a { font-size: 1.8rem; }
+            .back-to-top a { padding: 0.7rem 1.2rem; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 480px) {
+            .main-header { padding: 0.5rem; }
+            .logo { font-size: 1.5rem; }
+            .hamburger { font-size: 1.2rem; }
+            .wishlist-icon, #dark-mode-toggle { font-size: 1rem; color: var(--text-primary); } /* Ensure icons are visible in dark mode */
+            #wishlist-count { font-size: 0.5rem; padding: 1px 3px; }
+            .hero { height: 300px; margin-top: 110px; }
+            .hero-content h1 { font-size: 2rem; }
+            .hero-content p { font-size: 0.9rem; }
+            .hero-content button { padding: 0.6rem 1rem; font-size: 0.8rem; }
+            main { padding: 0.5rem; }
+            .section { padding: 1.5rem; margin: 1.5rem 0; }
+            .section h2 { font-size: 1.8rem; }
+            .section p { font-size: 0.9rem; }
+            .product-card h3 { font-size: 1.1rem; }
+            .product-card p { font-size: 0.8rem; }
+            footer { padding: 1.5rem 0.5rem; }
+            .footer-content { padding: 0.5rem; gap: 0.8rem; }
+            footer h3 { font-size: 1.1rem; }
+            footer p, footer a { font-size: 0.8rem; }
+            .social-icons a { font-size: 1.5rem; }
+            .back-to-top a { padding: 0.6rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <canvas id="particles" width="412" height="915"></canvas>
+
+    <!-- Notification Area -->
+    <div id="wishlist-notification"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="top-bar"><i class="fas fa-star"></i> Shop now via WhatsApp for exclusive deals! <i class="fas fa-star"></i></div>
+        <div class="main-header">
+            <div class="logo-container">
+                <span class="hamburger"><i class="fas fa-bars"></i></span>
+                <div class="logo">Gbemi’s Essentials</div>
+            </div>
+            <div class="header-nav">
+                <nav>
+                    <div class="nav-header">
+                        <h3>Gbemi’s Essentials</h3>
+                        <span class="close-nav"><i class="fas fa-times"></i></span>
+                    </div>
+                    <a href="index.html" style="--nav-index: 1;">Home</a>
+                    <a href="about.html" style="--nav-index: 2;">About</a>
+                    <a href="shop.html" style="--nav-index: 3;">Shop</a>
+                    <a href="faq.html" style="--nav-index: 4;">FAQ</a>
+                    <a href="contact.html" style="--nav-index: 5;">Contact</a>
+                </nav>
+            </div>
+            <div class="header-icons">
+                <div class="wishlist-icon"><i class="fas fa-heart"></i> <span id="wishlist-count">0</span></div>
+                <span id="dark-mode-toggle"><i class="fas fa-moon"></i></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Main Content -->
+        <main>
+            <section class="hero">
+                <div class="hero-carousel">
+                    <div class="hero-slide active">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/1200x/af/1e/f2/af1ef2c9dc0255fcdf4b56a59929584a.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/1200x/af/1e/f2/af1ef2c9dc0255fcdf4b56a59929584a.jpg" alt="Lip Gloss" width="1200" height="500">
+                        </picture>
+                    </div>
+                    <div class="hero-slide">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/1200x/0c/71/14/0c71145c548c4ec8a8cbe2b9e874187a.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/1200x/0c/71/14/0c71145c548c4ec8a8cbe2b9e874187a.jpg" alt="Lip Gloss" loading="lazy" width="1200" height="500">
+                        </picture>
+                    </div>
+                    <div class="hero-slide">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/736x/10/07/f3/1007f3b311d5e1cab23aba75a642139d.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/736x/10/07/f3/1007f3b311d5e1cab23aba75a642139d.jpg" alt="Hair Clips" loading="lazy" width="1200" height="500">
+                        </picture>
+                    </div>
+                    <div class="hero-slide">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/736x/10/df/ef/10dfef9eaab125132f3f8e5a9e072725.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/736x/10/df/ef/10dfef9eaab125132f3f8e5a9e072725.jpg" alt="Wall Collage" loading="lazy" width="1200" height="500">
+                        </picture>
+                    </div>
+                    <div class="hero-slide">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/1200x/7b/02/63/7b02633f7084ecc1c38bdb2a1e9c8489.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/1200x/7b/02/63/7b02633f7084ecc1c38bdb2a1e9c8489.jpg" alt="Phone Stand" loading="lazy" width="1200" height="500">
+                        </picture>
+                    </div>
+                    <div class="hero-slide">
+                        <picture>
+                            <source srcset="https://i.pinimg.com/1200x/9e/b5/9e/9eb59e9cfd262f72b5542bab0499f4a6.jpg" type="image/jpg">
+                            <img src="https://i.pinimg.com/1200x/9e/b5/9e/9eb59e9cfd262f72b5542bab0499f4a6.jpg" alt="Tongue Brush" loading="lazy" width="1200" height="500">
+                        </picture>
+                    </div>
+                </div>
+                <div class="hero-content">
+                    <h1>Shop Gbemi’s Essentials</h1>
+                    <p>Explore our curated collection of aesthetic everyday essentials—live the soft life, Ilorin style! <i class="fas fa-heart"></i></p>
+                    <button onclick="document.querySelector('.lip-gloss').scrollIntoView({ behavior: 'smooth' })">Browse Now</button>
+                </div>
+            </section>
+
+            <!-- Lip Gloss Section -->
+            <section class="lip-gloss section">
+                <h2>Lip Gloss</h2>
+                <p>Discover our collection of glossy, hydrating lip essentials in vibrant shades—perfect for that effortless shine.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg1" data-name="Peach Dream Lip Gloss" data-price="3500">
+                            <img src="https://i.pinimg.com/1200x/0c/71/14/0c71145c548c4ec8a8cbe2b9e874187a.jpg" alt="Peach Dream Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg1', 'Peach Dream Lip Gloss', 3500)"></i>
+                        </div>
+                        <h3>Peach Dream Lip Gloss</h3>
+                        <p>₦3,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg2" data-name="Berry Bliss Lip Gloss" data-price="3500">
+                            <img src="https://i.pinimg.com/1200x/a1/63/5d/a1635d3d852accde83b947743217d676.jpg" alt="Berry Bliss Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg2', 'Berry Bliss Lip Gloss', 3500)"></i>
+                        </div>
+                        <h3>Berry Bliss Lip Gloss</h3>
+                        <p>₦3,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg3" data-name="Nude Glow Lip Gloss" data-price="3000">
+                            <img src="https://i.pinimg.com/736x/a7/bc/dc/a7bcdcdc9fab3c1183c9d1e8aeab8f06.jpg" alt="Nude Glow Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg3', 'Nude Glow Lip Gloss', 3000)"></i>
+                        </div>
+                        <h3>Nude Glow Lip Gloss</h3>
+                        <p>₦3,000</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg4" data-name="Pink Petal Lip Gloss" data-price="3200">
+                            <img src="https://i.pinimg.com/1200x/99/2a/8e/992a8ecc1feadf01fd871fbbb10bdd46.jpg" alt="Pink Petal Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg4', 'Pink Petal Lip Gloss', 3200)"></i>
+                        </div>
+                        <h3>Pink Petal Lip Gloss</h3>
+                        <p>₦3,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg5" data-name="Rose Tint Lip Gloss" data-price="3400">
+                            <img src="https://i.pinimg.com/736x/09/5f/ab/095fabefd0bdb1f2037576ddd0bda366.jpg" alt="Rose Tint Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg5', 'Rose Tint Lip Gloss', 3400)"></i>
+                        </div>
+                        <h3>Rose Tint Lip Gloss</h3>
+                        <p>₦3,400</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg6" data-name="Clear Shine Lip Gloss" data-price="2800">
+                            <img src="https://i.pinimg.com/736x/76/40/aa/7640aa00ad64869016083c8a4b1a5c50.jpg" alt="Clear Shine Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg6', 'Clear Shine Lip Gloss', 2800)"></i>
+                        </div>
+                        <h3>Clear Shine Lip Gloss</h3>
+                        <p>₦2,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg7" data-name="Coral Kiss Lip Gloss" data-price="3600">
+                            <img src="https://i.pinimg.com/1200x/b1/30/38/b1303866217fc1e4e3470c008d0a46f0.jpg" alt="Coral Kiss Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg7', 'Coral Kiss Lip Gloss', 3600)"></i>
+                        </div>
+                        <h3>Coral Kiss Lip Gloss</h3>
+                        <p>₦3,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg8" data-name="Plum Velvet Lip Gloss" data-price="3700">
+                            <img src="https://i.pinimg.com/1200x/47/6a/cf/476acfbb9324e79211d334a454c2b604.jpg" alt="Plum Velvet Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg8', 'Plum Velvet Lip Gloss', 3700)"></i>
+                        </div>
+                        <h3>Plum Velvet Lip Gloss</h3>
+                        <p>₦3,700</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg9" data-name="Mauve Magic Lip Gloss" data-price="3100">
+                            <img src="https://i.pinimg.com/736x/68/f0/6b/68f06bc8ecf4877ed0aef4b7a39b30d9.jpg" alt="Mauve Magic Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg9', 'Mauve Magic Lip Gloss', 3100)"></i>
+                        </div>
+                        <h3>Mauve Magic Lip Gloss</h3>
+                        <p>₦3,100</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="lg10" data-name="Frosty Mint Lip Gloss" data-price="2900">
+                            <img src="https://i.pinimg.com/1200x/a6/61/1a/a6611a046d5c16e87d52c8d6de4b0724.jpg" alt="Frosty Mint Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'lg10', 'Frosty Mint Lip Gloss', 2900)"></i>
+                        </div>
+                        <h3>Frosty Mint Lip Gloss</h3>
+                        <p>₦2,900</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skincare Organizers Section -->
+            <section class="skincare-organizers section">
+                <h2>Skincare Organizers</h2>
+                <p>Keep your beauty routine tidy and stylish with these aesthetic organizers designed for your vanity.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so1" data-name="Clear Acrylic Organizer" data-price="5000">
+                            <img src="https://i.pinimg.com/1200x/af/d4/5f/afd45fddbdaba98ab0ec0e172878c8ec.jpg" alt="Clear Acrylic Organizer" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so1', 'Clear Acrylic Organizer', 5000)"></i>
+                        </div>
+                        <h3>Clear Acrylic Organizer</h3>
+                        <p>₦5,000</p>
+                    </div>
+                    <!-- Repeat for 9 more with different images and names/prices -->
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so2" data-name="Rose Gold Tray" data-price="4500">
+                            <img src="https://i.pinimg.com/1200x/33/c8/62/33c86220d1632df4a4866f3f2da71f95.jpg" alt="Rose Gold Tray" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so2', 'Rose Gold Tray', 4500)"></i>
+                        </div>
+                        <h3>Rose Gold Tray</h3>
+                        <p>₦4,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so3" data-name="Pastel Drawer Organizer" data-price="4800">
+                            <img src="https://i.pinimg.com/736x/b4/c0/94/b4c094a31ede16be8816404b548c96fa.jpg" alt="Pastel Drawer Organizer" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so3', 'Pastel Drawer Organizer', 4800)"></i>
+                        </div>
+                        <h3>Pastel Drawer Organizer</h3>
+                        <p>₦4,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so4" data-name="Bamboo Shelf Unit" data-price="5500">
+                            <img src="https://i.pinimg.com/1200x/d5/d4/8b/d5d48b19e342180590f36bd846885a51.jpg" alt="Bamboo Shelf Unit" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so4', 'Bamboo Shelf Unit', 5500)"></i>
+                        </div>
+                        <h3>Bamboo Shelf Unit</h3>
+                        <p>₦5,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so5" data-name="Velvet Jewelry Box" data-price="4200">
+                            <img src="https://i.pinimg.com/1200x/66/fb/42/66fb4229ce0d6b3defa0376a446d94f4.jpg" alt="Velvet Jewelry Box" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so5', 'Velvet Jewelry Box', 4200)"></i>
+                        </div>
+                        <h3>Velvet Jewelry Box</h3>
+                        <p>₦4,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so6" data-name="Glass Jar Set" data-price="3800">
+                            <img src="https://i.pinimg.com/736x/02/05/0e/02050e55dd011f04c5bfa9c6230e8177.jpg" alt="Glass Jar Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so6', 'Glass Jar Set', 3800)"></i>
+                        </div>
+                        <h3>Glass Jar Set</h3>
+                        <p>₦3,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so7" data-name="Marble Stand" data-price="5200">
+                            <img src="https://i.pinimg.com/736x/a5/cc/41/a5cc4115e307f79adf772501857015e1.jpg" alt="Marble Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so7', 'Marble Stand', 5200)"></i>
+                        </div>
+                        <h3>Marble Stand</h3>
+                        <p>₦5,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so8" data-name="Pink Cosmetic Tray" data-price="4600">
+                            <img src="https://i.pinimg.com/1200x/15/46/15/1546150e00d5681ed0efff11e3cd4762.jpg" alt="Pink Cosmetic Tray" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so8', 'Pink Cosmetic Tray', 4600)"></i>
+                        </div>
+                        <h3>Pink Cosmetic Tray</h3>
+                        <p>₦4,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so9" data-name="Wooden Divider Set" data-price="4900">
+                            <img src="https://i.pinimg.com/1200x/36/a2/1b/36a21b8b5a02d65ff87821bc1fbf52f2.jpg" alt="Wooden Divider Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so9', 'Wooden Divider Set', 4900)"></i>
+                        </div>
+                        <h3>Wooden Divider Set</h3>
+                        <p>₦4,900</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="so10" data-name="Crystal Holder" data-price="5300">
+                            <img src="https://i.pinimg.com/1200x/c6/c0/1e/c6c01ee7ceb4c54c5f1eed0857ffa55a.jpg" alt="Crystal Holder" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'so10', 'Crystal Holder', 5300)"></i>
+                        </div>
+                        <h3>Crystal Holder</h3>
+                        <p>₦5,300</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hair Accessories Section -->
+            <section class="hair-accessories section">
+                <h2>Hair Accessories</h2>
+                <p>Elevate your hairstyle with these cute and functional hair clips, ties, and more.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha1" data-name="Pearl Hair Clips" data-price="2000">
+                            <img src="https://i.pinimg.com/1200x/b7/0b/e5/b70be5ad9468c36902a54832b4e52675.jpg" alt="Pearl Hair Clips" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha1', 'Pearl Hair Clips', 2000)"></i>
+                        </div>
+                        <h3>Pearl Hair Clips</h3>
+                        <p>₦2,000</p>
+                    </div>
+                    <!-- Repeat for 9 more -->
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha2" data-name="Butterfly Clips" data-price="2200">
+                            <img src="https://i.pinimg.com/1200x/4a/99/e5/4a99e5c52f72ad6971795bed6d660c80.jpg" alt="Butterfly Clips" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha2', 'Butterfly Clips', 2200)"></i>
+                        </div>
+                        <h3>Butterfly Clips</h3>
+                        <p>₦2,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha3" data-name="Floral Scrunchies" data-price="1800">
+                            <img src="https://i.pinimg.com/1200x/fb/e4/c4/fbe4c4f3019fd30953c5ee2e27ad0b95.jpg" alt="Floral Scrunchies" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha3', 'Floral Scrunchies', 1800)"></i>
+                        </div>
+                        <h3>Floral Scrunchies</h3>
+                        <p>₦1,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha4" data-name="Bow Headbands" data-price="2500">
+                            <img src="https://i.pinimg.com/1200x/ec/8a/cd/ec8acde0c4adbdcd4cc3551fd0c9d259.jpg" alt="Bow Headbands" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha4', 'Bow Headbands', 2500)"></i>
+                        </div>
+                        <h3>Bow Headbands</h3>
+                        <p>₦2,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha5" data-name="Claw Clips Set" data-price="2100">
+                            <img src="https://i.pinimg.com/1200x/f5/e2/20/f5e220d622aebff109500abaa8a7af6e.jpg" alt="Claw Clips Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha5', 'Claw Clips Set', 2100)"></i>
+                        </div>
+                        <h3>Claw Clips Set</h3>
+                        <p>₦2,100</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha6" data-name="Silk Hair Ties" data-price="1600">
+                            <img src="https://i.pinimg.com/1200x/04/e5/ba/04e5ba13cb436363f5de8ed41f1c7cf2.jpg" alt="Silk Hair Ties" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha6', 'Silk Hair Ties', 1600)"></i>
+                        </div>
+                        <h3>Silk Hair Ties</h3>
+                        <p>₦1,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha7" data-name="Rhinestone Pins" data-price="2300">
+                            <img src="https://i.pinimg.com/1200x/5e/50/58/5e50585c4081e6cf18f961c12e9c624b.jpg" alt="Rhinestone Pins" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha7', 'Rhinestone Pins', 2300)"></i>
+                        </div>
+                        <h3>Rhinestone Pins</h3>
+                        <p>₦2,300</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha8" data-name="Velvet Bows" data-price="1900">
+                            <img src="https://i.pinimg.com/1200x/9a/bb/db/9abbdb567eb8ef0f42d9cffa6bb6554d.jpg" alt="Velvet Bows" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha8', 'Velvet Bows', 1900)"></i>
+                        </div>
+                        <h3>Velvet Bows</h3>
+                        <p>₦1,900</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha9" data-name="Metal Barrette" data-price="2400">
+                            <img src="https://i.pinimg.com/736x/24/d4/f0/24d4f0b7464dd42675a91f4d175bbae2.jpg" alt="Metal Barrette" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha9', 'Metal Barrette', 2400)"></i>
+                        </div>
+                        <h3>Metal Barrette</h3>
+                        <p>₦2,400</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ha10" data-name="Lace Headwrap" data-price="2700">
+                            <img src="https://i.pinimg.com/1200x/0e/3d/1a/0e3d1a697662c296f55815529da5309e.jpg" alt="Lace Headwrap" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ha10', 'Lace Headwrap', 2700)"></i>
+                        </div>
+                        <h3>Lace Headwrap</h3>
+                        <p>₦2,700</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wall Collages Section -->
+            <section class="wall-collages section">
+                <h2>Wall Collages</h2>
+                <p>Transform your space with these dreamy, customizable wall art kits full of aesthetic vibes.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc1" data-name="Vintage Print Kit" data-price="4000">
+                            <img src="https://i.pinimg.com/736x/84/9b/87/849b87fc7d009c8b0a22ce8b052542d6.jpg" alt="Vintage Print Kit" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc1', 'Vintage Print Kit', 4000)"></i>
+                        </div>
+                        <h3>Vintage Print Kit</h3>
+                        <p>₦4,000</p>
+                    </div>
+                    <!-- Repeat for 9 more -->
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc2" data-name="Floral Wall Set" data-price="3800">
+                            <img src="https://i.pinimg.com/736x/17/8e/0e/178e0e636523252621fb7564743b10cb.jpg" alt="Floral Wall Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc2', 'Floral Wall Set', 3800)"></i>
+                        </div>
+                        <h3>Floral Wall Set</h3>
+                        <p>₦3,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc3" data-name="Minimalist Quotes" data-price="4200">
+                            <img src="https://i.pinimg.com/1200x/69/1f/c1/691fc1692c51ed8e051be25f288a50d3.jpg" alt="Minimalist Quotes" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc3', 'Minimalist Quotes', 4200)"></i>
+                        </div>
+                        <h3>Minimalist Quotes</h3>
+                        <p>₦4,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc4" data-name="Pastel Dreams Kit" data-price="3900">
+                            <img src="https://i.pinimg.com/1200x/53/3e/b2/533eb213fce9d0c516e870174a331d61.jpg" alt="Pastel Dreams Kit" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc4', 'Pastel Dreams Kit', 3900)"></i>
+                        </div>
+                        <h3>Pastel Dreams Kit</h3>
+                        <p>₦3,900</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc5" data-name="Boho Frame Set" data-price="4100">
+                            <img src="https://i.pinimg.com/736x/54/f3/06/54f30659f9d2c1c75642d7be800a9241.jpg" alt="Boho Frame Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc5', 'Boho Frame Set', 4100)"></i>
+                        </div>
+                        <h3>Boho Frame Set</h3>
+                        <p>₦4,100</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc6" data-name="Cityscape Collage" data-price="4300">
+                            <img src="https://i.pinimg.com/736x/eb/a1/e3/eba1e327fd0227e42367d0a16b63d77b.jpg" alt="Cityscape Collage" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc6', 'Cityscape Collage', 4300)"></i>
+                        </div>
+                        <h3>Cityscape Collage</h3>
+                        <p>₦4,300</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc7" data-name="Nature Vibes Kit" data-price="3700">
+                            <img src="https://i.pinimg.com/1200x/fa/3f/fa/fa3ffae55476d2797eeaa4eb9ba9bce2.jpg" alt="Nature Vibes Kit" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc7', 'Nature Vibes Kit', 3700)"></i>
+                        </div>
+                        <h3>Nature Vibes Kit</h3>
+                        <p>₦3,700</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc8" data-name="Abstract Art Set" data-price="4400">
+                            <img src="https://i.pinimg.com/736x/23/0b/14/230b14ba6489c71e332a9a6540105489.jpg" alt="Abstract Art Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc8', 'Abstract Art Set', 4400)"></i>
+                        </div>
+                        <h3>Abstract Art Set</h3>
+                        <p>₦4,400</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc9" data-name="Quote Wall Pack" data-price="4000">
+                            <img src="https://i.pinimg.com/1200x/10/13/c6/1013c61331b57b2204e700d649afab8e.jpg" alt="Quote Wall Pack" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc9', 'Quote Wall Pack', 4000)"></i>
+                        </div>
+                        <h3>Quote Wall Pack</h3>
+                        <p>₦4,000</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="wc10" data-name="Travel Theme Collage" data-price="3900">
+                            <img src="https://i.pinimg.com/736x/d0/33/20/d033203f04064f68d910356a99ba5243.jpg" alt="Travel Theme Collage" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'wc10', 'Travel Theme Collage', 3900)"></i>
+                        </div>
+                        <h3>Travel Theme Collage</h3>
+                        <p>₦3,900</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phone Stands Section -->
+            <section class="phone-stands section">
+                <h2>Phone Stands</h2>
+                <p>Stylish and sturdy stands to keep your device handy for calls, videos, and more.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps1" data-name="Marble Phone Stand" data-price="2500">
+                            <img src="https://i.pinimg.com/736x/6f/97/fe/6f97feaf9704978c971b27e73c22bce6.jpg" alt="Marble Phone Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps1', 'Marble Phone Stand', 2500)"></i>
+                        </div>
+                        <h3>Marble Phone Stand</h3>
+                        <p>₦2,500</p>
+                    </div>
+                    <!-- Repeat for 9 more with varied images -->
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps2" data-name="Wooden Adjustable Stand" data-price="2800">
+                            <img src="https://i.pinimg.com/1200x/e1/d5/3a/e1d53a452406af4883e9fe74a72b3067.jpg" alt="Wooden Adjustable Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps2', 'Wooden Adjustable Stand', 2800)"></i>
+                        </div>
+                        <h3>Wooden Adjustable Stand</h3>
+                        <p>₦2,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps3" data-name="Pink Foldable Holder" data-price="2200">
+                            <img src="https://i.pinimg.com/736x/bf/79/cb/bf79cb3da656f7033592fca5a4b5379c.jpg" alt="Pink Foldable Holder" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps3', 'Pink Foldable Holder', 2200)"></i>
+                        </div>
+                        <h3>Pink Foldable Holder</h3>
+                        <p>₦2,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps4" data-name="Metal Ring Stand" data-price="2600">
+                            <img src="https://i.pinimg.com/1200x/03/08/b8/0308b868e64104de56dba80e9597f614.jpg" alt="Metal Ring Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps4', 'Metal Ring Stand', 2600)"></i>
+                        </div>
+                        <h3>Metal Ring Stand</h3>
+                        <p>₦2,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps5" data-name="Ceramic Desk Stand" data-price="3000">
+                            <img src="https://i.pinimg.com/1200x/94/a1/6d/94a16d6de3d8984aa4f681e19aff86a7.jpg" alt="Ceramic Desk Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps5', 'Ceramic Desk Stand', 3000)"></i>
+                        </div>
+                        <h3>Ceramic Desk Stand</h3>
+                        <p>₦3,000</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps6" data-name="Bamboo Portable Stand" data-price="2400">
+                            <img src="https://i.pinimg.com/1200x/6e/39/7e/6e397efada9667f5155d278c24408cf9.jpg" alt="Bamboo Portable Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps6', 'Bamboo Portable Stand', 2400)"></i>
+                        </div>
+                        <h3>Bamboo Portable Stand</h3>
+                        <p>₦2,400</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps7" data-name="Leather Grip Holder" data-price="2700">
+                            <img src="https://i.pinimg.com/1200x/c1/9d/8a/c19d8ad99e007c565fa019cbfbbe8125.jpg" alt="Leather Grip Holder" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps7', 'Leather Grip Holder', 2700)"></i>
+                        </div>
+                        <h3>Leather Grip Holder</h3>
+                        <p>₦2,700</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps8" data-name="Quartz Crystal Stand" data-price="2900">
+                            <img src="https://i.pinimg.com/1200x/1e/db/1e/1edb1e81ca11f4cda49a27fa74e97eaf.jpg" alt="Quartz Crystal Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps8', 'Quartz Crystal Stand', 2900)"></i>
+                        </div>
+                        <h3>Quartz Crystal Stand</h3>
+                        <p>₦2,900</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps9" data-name="Minimalist Dock" data-price="2500">
+                            <img src="https://i.pinimg.com/1200x/54/b6/f4/54b6f455c58a08620844c5d578c4e4dc.jpg" alt="Minimalist Dock" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps9', 'Minimalist Dock', 2500)"></i>
+                        </div>
+                        <h3>Minimalist Dock</h3>
+                        <p>₦2,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="ps10" data-name="Floral Pattern Stand" data-price="2600">
+                            <img src="https://i.pinimg.com/1200x/f2/f4/92/f2f492c5231de7b169a574514318e1c5.jpg" alt="Floral Pattern Stand" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'ps10', 'Floral Pattern Stand', 2600)"></i>
+                        </div>
+                        <h3>Floral Pattern Stand</h3>
+                        <p>₦2,600</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tongue Brushes Section -->
+            <section class="tongue-brushes section">
+                <h2>Tongue Brushes</h2>
+                <p>Fresh breath starts here with these cute, effective oral care tools.</p>
+                <div class="category-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb1" data-name="Mint Green Tongue Brush" data-price="1500">
+                            <img src="https://i.pinimg.com/1200x/ef/ab/a1/efaba19241afe192783e7c49174b2e96.jpg" alt="Mint Green Tongue Brush" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb1', 'Mint Green Tongue Brush', 1500)"></i>
+                        </div>
+                        <h3>Mint Green Tongue Brush</h3>
+                        <p>₦1,500</p>
+                    </div>
+                    <!-- Repeat for 9 more, using varied aesthetic images -->
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb2" data-name="Pink Silicone Scraper" data-price="1600">
+                            <img src="https://i.pinimg.com/1200x/17/37/45/1737459da750db0e7193474f8f96f3be.jpg" alt="Pink Silicone Scraper" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb2', 'Pink Silicone Scraper', 1600)"></i>
+                        </div>
+                        <h3>Pink Silicone Scraper</h3>
+                        <p>₦1,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb3" data-name="Copper Tongue Cleaner" data-price="1800">
+                            <img src="https://i.pinimg.com/1200x/d2/39/7a/d2397ae9a78d828b1d4d2f72047993d2.jpg" alt="Copper Tongue Cleaner" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb3', 'Copper Tongue Cleaner', 1800)"></i>
+                        </div>
+                        <h3>Copper Tongue Cleaner</h3>
+                        <p>₦1,800</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb4" data-name="Bamboo Brush Set" data-price="1400">
+                            <img src="https://i.pinimg.com/736x/91/ec/44/91ec445e38460c14982299a30a8a6ef5.jpg" alt="Bamboo Brush Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb4', 'Bamboo Brush Set', 1400)"></i>
+                        </div>
+                        <h3>Bamboo Brush Set</h3>
+                        <p>₦1,400</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb5" data-name="Travel Tongue Tool" data-price="1700">
+                            <img src="https://i.pinimg.com/1200x/49/03/d8/4903d84b286e17b8e9adf65946a89f93.jpg" alt="Travel Tongue Tool" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb5', 'Travel Tongue Tool', 1700)"></i>
+                        </div>
+                        <h3>Travel Tongue Tool</h3>
+                        <p>₦1,700</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb6" data-name="Ergonomic Scraper" data-price="1900">
+                            <img src="https://i.pinimg.com/1200x/ca/92/22/ca922223816233481e59ab3e81fc021c.jpg" alt="Ergonomic Scraper" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb6', 'Ergonomic Scraper', 1900)"></i>
+                        </div>
+                        <h3>Ergonomic Scraper</h3>
+                        <p>₦1,900</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb7" data-name="Lavender Scented Brush" data-price="1550">
+                            <img src="https://i.pinimg.com/1200x/5c/1b/8b/5c1b8b7c9de2d58f0c6c3572096149be.jpg" alt="Lavender Scented Brush" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb7', 'Lavender Scented Brush', 1550)"></i>
+                        </div>
+                        <h3>Lavender Scented Brush</h3>
+                        <p>₦1,550</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb8" data-name="Dual-Sided Cleaner" data-price="1650">
+                            <img src="https://i.pinimg.com/1200x/0b/67/16/0b671633047cd26081e26a152568f64e.jpg" alt="Dual-Sided Cleaner" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb8', 'Dual-Sided Cleaner', 1650)"></i>
+                        </div>
+                        <h3>Dual-Sided Cleaner</h3>
+                        <p>₦1,650</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb9" data-name="Eco-Friendly Scraper" data-price="1750">
+                            <img src="https://i.pinimg.com/1200x/88/e1/41/88e141add86e7e197ce721b8b30ac73a.jpg" alt="Eco-Friendly Scraper" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb9', 'Eco-Friendly Scraper', 1750)"></i>
+                        </div>
+                        <h3>Eco-Friendly Scraper</h3>
+                        <p>₦1,750</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="tb10" data-name="Compact Oral Tool" data-price="1450">
+                            <img src="https://i.pinimg.com/1200x/e1/a7/df/e1a7dfe95c7c75a6253d917564a8fd4f.jpg" alt="Compact Oral Tool" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'tb10', 'Compact Oral Tool', 1450)"></i>
+                        </div>
+                        <h3>Compact Oral Tool</h3>
+                        <p>₦1,450</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Best Sellers Section -->
+            <section class="best-sellers section">
+                <h2>Best Sellers</h2>
+                <p>Our most loved items—grab yours before they're gone!</p>
+                <div class="best-sellers-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="bs1" data-name="Signature Lip Gloss" data-price="3500">
+                            <img src="https://i.pinimg.com/1200x/74/2a/ce/742ace650535217508c7af2c95671d8e.jpg" alt="Signature Lip Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'bs1', 'Signature Lip Gloss', 3500)"></i>
+                        </div>
+                        <h3>Signature Lip Gloss</h3>
+                        <p>₦3,500</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="bs2" data-name="Deluxe Organizer" data-price="5000">
+                            <img src="https://i.pinimg.com/1200x/7c/e1/5b/7ce15bb6527214d8afb91737861cf63b.jpg" alt="Deluxe Organizer" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'bs2', 'Deluxe Organizer', 5000)"></i>
+                        </div>
+                        <h3>Deluxe Organizer</h3>
+                        <p>₦5,000</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="bs3" data-name="Pearl Clip Set" data-price="2000">
+                            <img src="https://i.pinimg.com/736x/bc/02/b3/bc02b39afe80e8c967df65a649944e2c.jpg" alt="Pearl Clip Set" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'bs3', 'Pearl Clip Set', 2000)"></i>
+                        </div>
+                        <h3>Pearl Clip Set</h3>
+                        <p>₦2,000</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- New Arrivals Section -->
+            <section class="new-arrivals section">
+                <h2>New Arrivals</h2>
+                <p>Fresh drops to keep your aesthetic game strong.</p>
+                <div class="new-arrivals-grid">
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="na1" data-name="New Berry Gloss" data-price="3600">
+                            <img src="https://i.pinimg.com/1200x/0b/67/16/0b671633047cd26081e26a152568f64e.jpg" alt="New Berry Gloss" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'na1', 'New Berry Gloss', 3600)"></i>
+                        </div>
+                        <h3>New Berry Gloss</h3>
+                        <p>₦3,600</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="na2" data-name="Eco Organizer" data-price="5200">
+                            <img src="https://i.pinimg.com/736x/a9/31/9d/a9319d744a859e0ccdc60b8cdd987fe6.jpg" alt="Eco Organizer" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'na2', 'Eco Organizer', 5200)"></i>
+                        </div>
+                        <h3>Eco Organizer</h3>
+                        <p>₦5,200</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="image-wrapper" data-id="na3" data-name="Crystal Clips" data-price="2300">
+                            <img src="https://i.pinimg.com/1200x/7d/6a/43/7d6a43b34373a3941524f9847f3e1177.jpg" alt="Crystal Clips" loading="lazy">
+                            <i class="fas fa-heart wishlist-icon" onclick="toggleWishlist(this, 'na3', 'Crystal Clips', 2300)"></i>
+                        </div>
+                        <h3>Crystal Clips</h3>
+                        <p>₦2,300</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Wishlist Modal -->
+        <div id="wishlist-modal">
+            <h2>Your Wishlist</h2>
+            <ul id="wishlist-items"></ul>
+            <div class="wishlist-actions">
+                <button onclick="shopWishlist()">Shop Wishlist</button>
+                <button onclick="document.getElementById('wishlist-modal').style.display='none'">Close</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <h3>Gbemi’s Essentials</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Ilorin, Nigeria</p>
+                    <p><i class="fas fa-globe"></i> Nationwide Shipping</p>
+                    <p><i class="fas fa-phone-alt"></i> +234 816 777 4347</p>
+                    <p><i class="fas fa-envelope"></i> gbemiesorlah134@gmail.com</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="about.html">About</a></p>
+                    <p><a href="shop.html">Shop</a></p>
+                    <p><a href="faq.html">FAQ</a></p>
+                    <p><a href="contact.html">Contact</a></p>
+                </div>
+                <div>
+                    <h3>Stay Connected</h3>
+                    <div class="social-icons">
+                        <a href="https://www.tiktok.com/@gbemis.essentials?is_from_webapp=1&sender_device=pc" class="fab fa-tiktok"></a>
+                        <a href="https://twitter.com/gbemisessentials" class="fab fa-twitter"></a>
+                        <a href="https://www.instagram.com/gbemis_essentials_/?utm_source=ig_web_button_share_sheet" class="fab fa-instagram"></a>
+                        <a href="https://wa.me/+2348167774347" class="fab fa-whatsapp"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="back-to-top">
+                <a href="#">Back to Top <i class="fas fa-arrow-up"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize wishlist globally
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || { items: [] };
+
+        // Add to Wishlist function with toggle
+        function toggleWishlist(element, id, name, price) {
+            const parsedPrice = parseFloat(price);
+            const itemIndex = wishlist.items.findIndex(i => i.id === id);
+            if (itemIndex === -1) {
+                wishlist.items.push({ id, name, price: parsedPrice });
+                element.classList.add('added');
+            } else {
+                wishlist.items.splice(itemIndex, 1);
+                element.classList.remove('added');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistDisplay();
+            const notification = document.getElementById('wishlist-notification');
+            notification.textContent = `${name} ${itemIndex === -1 ? 'added' : 'removed'} from wishlist!`;
+            notification.style.display = 'block';
+            setTimeout(() => notification.style.display = 'none', 2000);
+            document.getElementById('wishlist-modal').style.display = 'block';
+        }
+
+        // Update wishlist display
+        function updateWishlistDisplay() {
+            const modal = document.getElementById('wishlist-modal');
+            modal.innerHTML = `
+                <h2>Your Wishlist</h2>
+                <ul id="wishlist-items">
+                    ${wishlist.items.length === 0 ? '<li style="text-align: center; font-style: italic;">Your wishlist is empty.</li>' : 
+                    wishlist.items.map(item => `
+                        <li>
+                            <span>${item.name} - ₦${Number(item.price).toFixed(2)}</span>
+                            <button onclick="removeFromWishlist('${item.id}')">Remove</button>
+                        </li>
+                    `).join('')}
+                </ul>
+                <div class="wishlist-actions">
+                    <button onclick="shopWishlist()">Shop Wishlist</button>
+                    <button onclick="document.getElementById('wishlist-modal').style.display='none'">Close</button>
+                </div>
+            `;
+            document.getElementById('wishlist-count').textContent = wishlist.items.length;
+            // Update product card wishlist icons
+            document.querySelectorAll('.wishlist-icon').forEach(icon => {
+                const id = icon.parentElement.getAttribute('data-id');
+                if (wishlist.items.find(i => i.id === id)) {
+                    icon.classList.add('added');
+                } else {
+                    icon.classList.remove('added');
+                }
+            });
+        }
+
+        // Remove from Wishlist
+        function removeFromWishlist(id) {
+            wishlist.items = wishlist.items.filter(i => i.id !== id);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistDisplay();
+            document.getElementById('wishlist-modal').style.display = 'block';
+        }
+
+        // Shop Wishlist via WhatsApp
+        function shopWishlist() {
+            if (wishlist.items.length === 0) {
+                alert('Your wishlist is empty!');
+                return;
+            }
+            const message = wishlist.items.map(item => `Item: ${item.name}, Price: ₦${Number(item.price).toFixed(2)}, Quantity: 1`).join('\n');
+            const encodedMessage = encodeURIComponent(`I want to shop my wishlist:\n${message}`);
+            window.open(`https://wa.me/+2348167774347?text=${encodedMessage}`, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Particle Animation
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particlesArray = [];
+            const numberOfParticles = 150;
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.color = `rgba(${Math.random() * 100 + 155}, ${Math.random() * 50 + 205}, ${Math.random() * 50 + 205}, 0.7)`; // Adjusted for pink/blush
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
+                requestAnimationFrame(animateParticles);
+            }
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            // Hero Carousel
+            const slides = document.querySelectorAll('.hero-slide');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) slide.classList.add('active');
+                });
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            showSlide(currentSlide);
+            setInterval(nextSlide, 5000);
+
+            // Parallax Effect for Hero
+            const hero = document.querySelector('.hero');
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const moveX = (x - centerX) / centerX * 20;
+                const moveY = (y - centerY) / centerY * 20;
+                hero.querySelectorAll('.hero-slide img').forEach(img => {
+                    img.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.1)`;
+                });
+            });
+            hero.addEventListener('mouseleave', () => {
+                hero.querySelectorAll('.hero-slide img').forEach(img => {
+                    img.style.transform = 'translate(0, 0) scale(1.1)';
+                });
+            });
+
+            // Header Shrink on Scroll
+            window.addEventListener('scroll', () => {
+                document.querySelector('header').classList.toggle('shrink', window.scrollY > 50);
+            });
+
+            // Section Fade-In Animation
+            const sections = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+
+            // Hamburger Menu
+            const nav = document.querySelector('nav');
+            const hamburger = document.querySelector('.hamburger');
+            const closeNav = document.querySelector('.close-nav');
+            const contentWrapper = document.querySelector('.content-wrapper');
+
+            hamburger.addEventListener('click', () => {
+                nav.classList.add('active');
+                contentWrapper.classList.add('nav-open');
+            });
+
+            closeNav.addEventListener('click', () => {
+                nav.classList.remove('active');
+                contentWrapper.classList.remove('nav-open');
+            });
+
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('active');
+                    contentWrapper.classList.remove('nav-open');
+                });
+            });
+
+            // Dark Mode Toggle
+            document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+                document.getElementById('dark-mode-toggle').innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            });
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            // Wishlist Icon Click
+            document.querySelector('.wishlist-icon').addEventListener('click', () => {
+                updateWishlistDisplay();
+                document.getElementById('wishlist-modal').style.display = 'block';
+            });
+
+            // Initial Wishlist Update
+            updateWishlistDisplay();
+        });
+    </script>
+</body>
+</html>
